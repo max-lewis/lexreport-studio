@@ -41,17 +41,23 @@ export default async function ReportPage({
           </p>
         </div>
         <div className="flex gap-2">
+          <Link href={`/(dashboard)/reports/${report.id}/edit`}>
+            <Button>Edit Report</Button>
+          </Link>
           <Button variant="outline">Export PDF</Button>
-          {!report.published && <Button>Publish</Button>}
+          {!report.published && <Button variant="outline">Publish</Button>}
         </div>
       </div>
 
       <div className="rounded-lg border p-8">
         <div className="text-center py-12 text-muted-foreground">
-          <p className="text-lg mb-2">This report is ready for content</p>
-          <p className="text-sm">
-            Section editor and AI assistance will be available in the next update
+          <p className="text-lg mb-2">Ready to start editing?</p>
+          <p className="text-sm mb-4">
+            Click "Edit Report" to create sections and add content
           </p>
+          <Link href={`/(dashboard)/reports/${report.id}/edit`}>
+            <Button size="lg">Open Editor</Button>
+          </Link>
         </div>
       </div>
 
