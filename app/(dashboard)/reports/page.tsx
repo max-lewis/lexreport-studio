@@ -9,18 +9,24 @@ export default async function ReportsPage() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const { data: reports, error } = await supabase
+  // Get all reports if no user, or user's reports if logged in
+  let query = supabase
     .from('reports')
     .select('*')
-    .eq('created_by', user!.id)
     .eq('is_deleted', false)
     .order('updated_at', { ascending: false })
+
+  if (user) {
+    query = query.eq('created_by', user.id)
+  }
+
+  const { data: reports, error } = await query
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">My Reports</h1>
-        <Link href="/(dashboard)/reports/new">
+        <Link href="/reports/new">
           <Button>Create Report</Button>
         </Link>
       </div>
@@ -34,7 +40,7 @@ export default async function ReportsPage() {
       {reports && reports.length === 0 && (
         <div className="text-center py-12">
           <p className="text-muted-foreground mb-4">You haven't created any reports yet.</p>
-          <Link href="/(dashboard)/reports/new">
+          <Link href="/reports/new">
             <Button>Create your first report</Button>
           </Link>
         </div>
@@ -45,7 +51,7 @@ export default async function ReportsPage() {
           {reports.map((report) => (
             <Link
               key={report.id}
-              href={`/(dashboard)/reports/${report.id}`}
+              href={`/reports/${report.id}`}
               className="block p-6 rounded-lg border hover:border-primary transition-colors"
             >
               <div className="flex items-start justify-between">

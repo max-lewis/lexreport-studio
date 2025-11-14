@@ -21,7 +21,7 @@ export default async function DashboardLayout({
     <div className="min-h-screen flex flex-col">
       <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/(dashboard)/reports" className="text-xl font-bold">
+          <Link href="/reports" className="text-xl font-bold">
             LexReport Studio
           </Link>
           <div className="flex items-center gap-4">

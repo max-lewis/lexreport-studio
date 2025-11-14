@@ -27,7 +27,7 @@ export default async function ReportPage({
       <div className="flex items-start justify-between">
         <div>
           <Link
-            href="/(dashboard)/reports"
+            href="/reports"
             className="text-sm text-muted-foreground hover:text-primary mb-2 inline-block"
           >
             ← Back to Reports
@@ -41,7 +41,7 @@ export default async function ReportPage({
           </p>
         </div>
         <div className="flex gap-2">
-          <Link href={`/(dashboard)/reports/${report.id}/edit`}>
+          <Link href={`/reports/${report.id}/edit`}>
             <Button>Edit Report</Button>
           </Link>
           <Button variant="outline">Export PDF</Button>
@@ -55,7 +55,7 @@ export default async function ReportPage({
           <p className="text-sm mb-4">
             Click "Edit Report" to create sections and add content
           </p>
-          <Link href={`/(dashboard)/reports/${report.id}/edit`}>
+          <Link href={`/reports/${report.id}/edit`}>
             <Button size="lg">Open Editor</Button>
           </Link>
         </div>

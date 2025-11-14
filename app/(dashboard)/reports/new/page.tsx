@@ -47,7 +47,7 @@ export default function NewReportPage() {
         setError(insertError.message)
         setLoading(false)
       } else {
-        router.push(`/(dashboard)/reports/${data.id}`)
+        router.push(`/reports/${data.id}`)
         router.refresh()
       }
     } catch (err) {
