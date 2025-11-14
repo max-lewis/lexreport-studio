@@ -8,6 +8,7 @@ import type { ContentBlock, ContentBlockType } from '@/types/content-blocks'
 import { SectionSidebar } from '@/components/sections/section-sidebar'
 import { ContentBlockRenderer } from '@/components/content-blocks/content-block-renderer'
 import { BlockSelector } from '@/components/content-blocks/block-selector'
+import { AIPanel } from '@/components/ai/ai-panel'
 import {
   createTextBlock,
   createHeadingBlock,
@@ -274,6 +275,13 @@ export default function ReportEditorPage() {
     )
   }
 
+  // Handle AI-generated content
+  const handleAIContentGenerated = (content: string) => {
+    // Create a text block with the AI-generated content
+    const newBlock = createTextBlock(content, contentBlocks.length)
+    setContentBlocks([...contentBlocks, newBlock])
+  }
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Section Sidebar */}
@@ -411,6 +419,27 @@ export default function ReportEditorPage() {
           )}
         </div>
       </div>
+
+      {/* AI Assistant Sidebar */}
+      {currentSection && (
+        <div className="w-96 flex-shrink-0 border-l border-gray-200 bg-white overflow-y-auto p-4">
+          <AIPanel
+            sectionType={currentSection.type}
+            sectionTitle={currentSection.title || undefined}
+            existingContent={contentBlocks.map(block => {
+              if (block.type === 'text') return block.content
+              if (block.type === 'heading') return `# ${block.content}`
+              return ''
+            }).filter(Boolean).join('\n\n')}
+            reportContext={{
+              title: report.title,
+              audience: report.meta?.audience,
+              purpose: report.meta?.purpose,
+            }}
+            onContentGenerated={handleAIContentGenerated}
+          />
+        </div>
+      )}
     </div>
   )
 }
