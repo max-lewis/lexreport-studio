@@ -27,24 +27,8 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  // Protected routes
-  if (!user && (request.nextUrl.pathname.startsWith('/reports') || request.nextUrl.pathname.startsWith('/profile'))) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
-
-  // Redirect authenticated users away from auth pages
-  if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/reports'
-    return NextResponse.redirect(url)
-  }
+  // Refresh session if expired (but don't enforce auth)
+  await supabase.auth.getUser()
 
   return supabaseResponse
 }
